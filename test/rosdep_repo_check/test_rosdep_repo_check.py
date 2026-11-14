@@ -35,6 +35,7 @@ import unittest
 import yaml
 
 from . import get_package_link
+from . import SkipPlatform
 from .config import load_config
 from .suggest import make_suggestion
 from .verify import verify_rules
@@ -57,7 +58,7 @@ def detect_lines(diffstr):
 
 
 def get_changed_line_numbers():
-    UPSTREAM_NAME = 'unittest_upstream_comparision'
+    UPSTREAM_NAME = 'unittest_upstream_comparison'
     DIFF_BRANCH = 'master'
     DIFF_REPO = 'https://github.com/ros/rosdistro.git'
 
@@ -148,7 +149,14 @@ class TestRosdepRepositoryCheck(unittest.TestCase):
                     self._config['supported_versions'].keys()).difference(rules.keys())
                 for missing_os in missing_os_names:
                     print('Looking for suggestions for %s on %s' % (key, missing_os))
-                    suggestion = make_suggestion(self._config, key, missing_os)
+                    try:
+                        suggestion = make_suggestion(self._config, key, missing_os)
+                    except SkipPlatform as e:
+                        msg = '\n::warning::' + str(e)
+                        if e.__cause__:
+                            msg += ': ' + str(e.__cause__)
+                        print(msg, file=sys.stderr)
+                        continue
                     if suggestion:
                         suggestion_url = get_package_link(
                             self._config, suggestion, missing_os,
@@ -156,7 +164,7 @@ class TestRosdepRepositoryCheck(unittest.TestCase):
                             self._config['supported_arches'][missing_os][0])
                         print(
                             '\n::warning file=%s,line=%d::'
-                            "Key '%s' might be satisifed by %s package named '%s': %s" % (
+                            "Key '%s' might be satisfied by %s package named '%s': %s" % (
                                 path, key.__line__, key, missing_os, suggestion.binary_name,
                                 suggestion_url),
                             file=sys.stderr)

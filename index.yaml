@@ -1,6 +1,6 @@
 %YAML 1.1
 # ROS index file
-# see REP 143: http://ros.org/reps/rep-0143.html
+# see REP 143: https://reps.openrobotics.org/rep-0143/
 ---
 distributions:
   ardent:
@@ -27,21 +27,36 @@ distributions:
   groovy:
     distribution: [groovy/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/groovy-cache.yaml.gz
+  humble:
+    distribution: [humble/distribution.yaml]
+    distribution_cache: http://repo.ros2.org/rosdistro_cache/humble-cache.yaml.gz
   hydro:
     distribution: [hydro/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/hydro-cache.yaml.gz
   indigo:
     distribution: [indigo/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/indigo-cache.yaml.gz
+  iron:
+    distribution: [iron/distribution.yaml]
+    distribution_cache: http://repo.ros2.org/rosdistro_cache/iron-cache.yaml.gz
   jade:
     distribution: [jade/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/jade-cache.yaml.gz
+  jazzy:
+    distribution: [jazzy/distribution.yaml]
+    distribution_cache: http://repo.ros2.org/rosdistro_cache/jazzy-cache.yaml.gz
+  kilted:
+    distribution: [kilted/distribution.yaml]
+    distribution_cache: http://repo.ros2.org/rosdistro_cache/kilted-cache.yaml.gz
   kinetic:
     distribution: [kinetic/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/kinetic-cache.yaml.gz
   lunar:
     distribution: [lunar/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/lunar-cache.yaml.gz
+  lyrical:
+    distribution: [lyrical/distribution.yaml]
+    distribution_cache: http://repo.ros2.org/rosdistro_cache/lyrical-cache.yaml.gz
   melodic:
     distribution: [melodic/distribution.yaml]
     distribution_cache: http://repositories.ros.org/rosdistro_cache/melodic-cache.yaml.gz

@@ -4,78 +4,120 @@ package_sources:
   - !apk_base_url https://dl-cdn.alpinelinux.org/alpine/$releasever/main
   - !apk_base_url https://dl-cdn.alpinelinux.org/alpine/$releasever/community
   - !apk_base_url https://dl-cdn.alpinelinux.org/alpine/$releasever/testing
+  arch:
+  - !pacman_base_url https://archive.archlinux.org/repos/last/$repo/os/$arch/ core
+  - !pacman_base_url https://archive.archlinux.org/repos/last/$repo/os/$arch/ extra
+  conda_forge:
+  - !conda_channel_url https://conda.anaconda.org/conda-forge/$arch/repodata.json.zst
+  - !conda_channel_url https://conda.anaconda.org/conda-forge/noarch/repodata.json.zst
   debian:
   - !deb_base_url http://deb.debian.org/debian main
   - !deb_base_url http://deb.debian.org/debian contrib
   - !deb_base_url http://deb.debian.org/debian non-free
   - !deb_base_url http://repos.ros.org/repos/ros_bootstrap main
   fedora:
-  - !rpm_base_url https://dl.fedoraproject.org/pub/$distname/linux/releases/$releasever/Everything/$basearch/os/
-  - !rpm_base_url https://dl.fedoraproject.org/pub/$distname/linux/updates/$releasever/Everything/$basearch/
-  - !rpm_base_url https://download1.rpmfusion.org/free/$distname/releases/$releasever/Everything/$basearch/os/
+  - !rpm_mirrorlist_url https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch
+  - !rpm_mirrorlist_url https://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch
+  - !rpm_mirrorlist_url https://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch
+  openembedded:
+  - !layer_index_url http://layers.openembedded.org/layerindex/api/
   opensuse:
   - !rpm_base_url http://download.opensuse.org/distribution/leap/$releasever/repo/oss/
   - !rpm_base_url http://download.opensuse.org/distribution/leap/$releasever/repo/non-oss/
   - !rpm_base_url http://download.opensuse.org/update/leap/$releasever/oss/
   - !rpm_base_url http://download.opensuse.org/update/leap/$releasever/non-oss/
   rhel:
-  - '7':
-    - !rpm_base_url https://dl.fedoraproject.org/pub/epel/$releasever/$basearch/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/os/$basearch/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/updates/$basearch/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/extras/$basearch/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/sclo/$basearch/rh/
-    '8':
-    - !rpm_base_url https://dl.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/BaseOS/$basearch/os/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/AppStream/$basearch/os/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/PowerTools/$basearch/os/
-    - !rpm_base_url http://mirror.centos.org/centos-$releasever/$releasever/extras/$basearch/os/
-  - !rpm_base_url https://download1.rpmfusion.org/free/el/updates/$releasever/$basearch/
+  - !rpm_mirrorlist_url https://mirrors.fedoraproject.org/mirrorlist?repo=epel-$releasever&arch=$basearch
+  - '8':
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/powertools
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/extras
+    '9':
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/crb
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/extras
+    '10':
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/crb
+    - !rpm_mirrorlist_url https://mirrors.almalinux.org/mirrorlist/$releasever/extras
+  - !rpm_mirrorlist_url https://mirrors.rpmfusion.org/mirrorlist?repo=free-el-updates-released-$releasever&arch=$basearch
   ubuntu:
-  - !deb_base_url http://archive.ubuntu.com/ubuntu main
-  - !deb_base_url http://archive.ubuntu.com/ubuntu universe
-  - !deb_base_url http://archive.ubuntu.com/ubuntu multiverse
-  - !deb_base_url http://repos.ros.org/repos/ros_bootstrap main
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE) main
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE) universe
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE) multiverse
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE)-updates main
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE)-updates universe
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE)-updates multiverse
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE)-security main
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE)-security universe
+  - !deb_base_url http://archive.ubuntu.com/ubuntu $(RELEASE)-security multiverse
+  - !deb_base_url http://repos.ros.org/repos/ros_bootstrap $(RELEASE) main
 
 package_dashboards:
+- pattern: !regular_expression .*//archive.archlinux.org/repos/last/([^/]+)/os/.*
+  url: https://archlinux.org/packages/\1/{os_arch}/{source_name}/
 - pattern: !regular_expression .*//deb.debian.org/debian/.*
   url: https://packages.debian.org/{os_code_name}/{binary_name}
 - pattern: !regular_expression .*//dl.fedoraproject.org/pub/.*
-  url: https://src.fedoraproject.org/rpms/{source_name}#bodhi_updates
+  url: https://packages.fedoraproject.org/pkgs/{source_name}/{binary_name}/
+- pattern: !regular_expression .*://layers.openembedded.org/layerindex/api/recipes/([^/]+)
+  url: https://layers.openembedded.org/layerindex/recipe/\1/
 - pattern: !regular_expression .*//download.opensuse.org/.*
   url: https://software.opensuse.org/package/{source_name}
 - pattern: !regular_expression .*//archive.ubuntu.com/ubuntu/.*
   url: https://packages.ubuntu.com/{os_code_name}/{binary_name}
 - pattern: !regular_expression .*//dl-cdn.alpinelinux.org/alpine/[^/]+/([^/]+)/.*
   url: https://pkgs.alpinelinux.org/package/{os_code_name}/\1/{os_arch}/{binary_name}
+- pattern: !regular_expression .*//conda.anaconda.org/conda-forge/.*
+  url: https://anaconda.org/conda-forge/{binary_name}
 
 supported_versions:
   alpine:
   - edge
+  arch:
+  - ''
+  conda_forge:
+  - ''
   debian:
-  - buster
+  - bookworm
+  - trixie
   fedora:
-  - '34'
-  - '35'
+  - '42'
+  - '43'
+  - '44'
   opensuse:
   - '15.2'
+  openembedded:
+  - master
   rhel:
-  - '7'
   - '8'
+  - '9'
+  - '10'
   ubuntu:
-  - bionic
   - focal
+  - jammy
+  - noble
+  - resolute
 
 supported_arches:
   alpine:
   - x86_64
+  arch:
+  - x86_64
+  conda_forge:
+  - linux-64
+  - win-64
   debian:
   - amd64
   fedora:
   - x86_64
   opensuse:
   - x86_64
+  openembedded:
+  - ''
   rhel:
   - x86_64
   ubuntu:
@@ -83,14 +125,22 @@ supported_arches:
 
 name_replacements:
   fedora:
-    '34':
+    '42':
       '%{__isa_name}': 'x86'
-    '35':
+    '43':
       '%{__isa_name}': 'x86'
+    '44':
+      '%{__isa_name}': 'x86'
+  openembedded:
+    master:
+      '${PYTHON_PN}': 'python3'
   rhel:
-    '7':
-      '%{__isa_name}': 'x86'
-      '%{python3_pkgversion}': '36'
     '8':
+      '%{__isa_name}': 'x86'
+      '%{python3_pkgversion}': '3'
+    '9':
+      '%{__isa_name}': 'x86'
+      '%{python3_pkgversion}': '3'
+    '10':
       '%{__isa_name}': 'x86'
       '%{python3_pkgversion}': '3'

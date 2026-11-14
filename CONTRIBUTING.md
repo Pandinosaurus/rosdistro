@@ -9,7 +9,7 @@ Binary Releases
 If you would like to add a package for binary release please see the [Bloom documentation](http://wiki.ros.org/bloom).
 Bloom is a tool which will help you do the release as well as open a pull-request for you.
 It will also assist adding documentation and source entries.
-There are [several helpful tutorials](http://wiki.ros.org/bloom/Tutorials) which provide instructions on how to do things like [make a first release](http://wiki.ros.org/bloom/Tutorials/FirstTimeRelease).
+There are [several helpful tutorials](http://wiki.ros.org/bloom/Tutorials) which provide instructions on how to do things like [make a first release](https://docs.ros.org/en/rolling/Developer-Tools/Build/Releasing/First-Time-Release.html).
 
 Once you have made a release make sure that you are subscribed to the appropriate subcategory of our [Release management Category](https://discourse.ros.org/c/release/16) for the appropriate distros.
 This is our primary method of communications with maintainers and is where the ROS Boss will coordinate releases.
@@ -17,7 +17,7 @@ It is expected that all maintainers are watching those categories to allow us to
 
 ### Guidelines for Package Naming
 
-When releasing a new package into a distribution, please follow the naming guidelines set out in the [ROS REP 144: ROS Package Naming](https://www.ros.org/reps/rep-0144.html).
+When releasing a new package into a distribution, please follow the naming guidelines set out in the [ROS REP 144: ROS Package Naming](https://reps.openrobotics.org/rep-0144/).
 
 ### Guidelines for Package Contents
 
@@ -88,7 +88,7 @@ It is up to the judgement of the ROS Distro's release manager to make an excepti
 Documentation Indexing
 ----------------------
 
-If you just want to submit for documentation indexing only [this tutorial](http://wiki.ros.org/rosdistro/Tutorials/Indexing%20Your%20ROS%20Repository%20for%20Documentation%20Generation) will get you going.
+If you just want to submit for documentation indexing only [this tutorial](https://docs.ros.org/en/rolling/How-To-Guides/Releasing/Index-Your-Packages.html) will get you going.
 
 Continuous Integration Indexing
 -------------------------------
@@ -111,7 +111,7 @@ There is a guide for submitting rosdep keys [here](http://docs.ros.org/independe
 Updates to rosdep rules require the review of two people.
 This will usually means that it needs a +1, and then it can be merged by a different person.
 
-For convenience in reviewing, please comment in the PR with links to the web listings of packages such as on http://packages.ubuntu.com, http://packages.debian.org, and https://apps.fedoraproject.org/packages or if a pip package pypi.python.org.
+For convenience in reviewing, please comment in the PR with links to the web listings of packages such as on http://packages.ubuntu.com, http://packages.debian.org, and https://packages.fedoraproject.org or if a pip package pypi.python.org.
 
 Please also briefly describe the package being added and what use case you want to use it for.
 It's valuable to have a record of the packages as submitted and their intended purpose for clarity in the future so that if there's a conflict there's information to fall back on instead of speculation about the original use cases.
@@ -124,10 +124,10 @@ Guidelines for rosdep rules
    For example if an ubuntu package is the same for all versions only write the generic ubuntu rule, don't call out the same package name for every version of ubuntu.
    Similarly don't call out indirect dependencies or default options for packages.
  * Python packages should go in the `python.yaml`.
- * Homebrew into `osx-homebrew.yaml`.
+ * The `osx-homebrew.yaml` file is deprecated; new macOS/Homebrew rules should go into either `base.yaml` or `python.yaml`.
  * Supported Platforms
    * Rules can be contributed for any platform.
-     However to be released they must be at least cover the supported platforms in REP 3: http://www.ros.org/reps/rep-0003.html So:
+     However to be released they must at least cover the supported platforms in REP 2000: https://reps.openrobotics.org/rep-2000 So:
     * Ubuntu and Debian are top priority.
     * Fedora and Gentoo have packaging jobs and should be filled in if they are available.
     * OSX is also nice to have.
@@ -135,6 +135,8 @@ Guidelines for rosdep rules
     * If specific versions are called out, there should be coverage of all versions currently targeted by supported ROS distros.
      * If there's a new distro in prerelease adding a rule for it is fine.
        However please don't target 'sid' as it's a rolling target and when the keys change our database gets out of date.
+    * Rules for EOL Distros will be pruned periodically.
+      * If you are trying to use an EOL platform for historical purposes, you can access the old rules from tags of the rosdistro when that platform was supported, but there will not be any support or changes. [example](https://github.com/ros/rosdistro/issues/31569#issuecomment-1003974561)
   * Keep everything in alphabetical order for better merging.
   * No trailing whitespace.
   * No blank lines.
@@ -160,8 +162,21 @@ Keys in the rosdep database are required to come from packages contained in the 
 #### RHEL/CentOS
 
 * CentOS Repositories: base, extras, centos-sclo-rh, or updates
-  * Additionally, for CentOS 8+: AppStream or PowerTools
+  * For EL 8 and later: BaseOS, AppStream, and the development repository
+    (PowerTools on EL 8, CRB on EL 9 and 10)
 * Fedora Project Repositories: epel
+
+For RHEL rules, the [rosdep repository check](test/rosdep_repo_check/config.yaml)
+uses AlmaLinux mirrors for these system packages. Browse the
+[AlmaLinux package archive](https://repo.almalinux.org/almalinux/)
+by major version, repository, and architecture, then look for the binary RPM under
+`os/Packages/`. For example, `glibc-langpack-de` is in the
+[AlmaLinux 9 BaseOS x86_64 package directory](https://repo.almalinux.org/almalinux/9/BaseOS/x86_64/os/Packages/).
+
+For EPEL, search [Fedora Packages](https://packages.fedoraproject.org/) for the
+binary package and check the **Stable** column in the Fedora EPEL row for the
+target EL release (see [htop](https://packages.fedoraproject.org/pkgs/htop/htop/)
+for an example). Include the package listing and EL release in your pull request.
 
 #### MacOS
 
@@ -198,6 +213,7 @@ Work has been proposed to add a separate installer for AUR packages [ros-infrast
 
 * [NixOS unstable channel](https://github.com/NixOS/nixpkgs/tree/nixos-unstable), search available at https://search.nixos.org/packages
 * [nix-ros-overlay](https://github.com/lopsided98/nix-ros-overlay)
+* Following the [NixOS Python Guide](https://nixos.org/manual/nixpkgs/stable/#python), use `pythonPackages` for Python 2 and `python3Packages` for Python 3 keys.
 
 #### openSUSE
 
@@ -241,7 +257,7 @@ For example:
 
 ```yaml
 python3-foobar-pip:
-  ubuntu:
+  '*':
     pip:
       packages: [foobar]
 ```
@@ -256,7 +272,7 @@ For example:
 
 ```yaml
 python-foobar-pip: &migrate_eol_2025_04_30_python3_foobar_pip # Anchor
-  ubuntu:
+  '*':
     pip:
       packages: [foobar]
 python3-foobar-pip: *migrate_eol_2025_04_30_python3_foobar_pip # Alias
@@ -273,25 +289,48 @@ The `-pip` key should be removed when the package becomes available on all platf
 As a reminder `pip` rules should not be used on Gentoo.
 See above for the Gentoo specific guidelines.
 
+#### pip mixed with system packages
+
+Some packages are only available as system packages in newer distributions.
+In such case, you can specify the default as system package, and pip for older distributions for which the system packages are not available.
+
+For example:
+
+```yaml
+python3-relatively-new-package
+  ubuntu:
+    '*': [python3-relatively-new-package]
+    bionic:
+      pip:
+        packages: [relatively-new-package]
+```
+
 How to submit pull requests
 ---------------------------
 
 When submitting pull requests it is expected that they pass the unit tests for formatting.
 The unit tests enforce alphabetization of elements and a consistent formatting to keep merging as clean as possible.
 
-To run the tests run ``nosetests`` in the root of the repository.
-These tests require several dependencies that can be installed either from the ROS repositories or via pip(list built based on the content of [.travis.yaml](https://github.com/ros/rosdistro/blob/master/.travis.yml):
+### Unit Testing
 
-|   Dependency   |            Ubuntu package         |   Pip package  |
-| :------------: | --------------------------------- | -------------- |
-| catkin_pkg     | python-catkin-pkg                 | catkin-pkg     |
-| github         | python-github                     | PyGithub       |
-| nose           | python-nose                       | nose           |
-| rosdistro      | python-rosdistro                  | rosdistro      |
-| ros_buildfarm  | python-ros-buildfarm              | ros-buildfarm  |
-| unidiff        | python-unidiff (Zesty and higher) | unidiff        |
-| yamllint       | yamllint                          | yamllint       |
+It is recommended to use a virtual environment and pip to install the unit test dependencies.
+The test dependencies are listed in [test/requirements.txt](./test/requirements.txt).
 
-There is a tool ``rosdistro_reformat`` which will fix most formatting errors such as alphabetization and correct formatting.
+```bash
+# create the virtual environment
+python3 -m venv .venv
 
-Note: There's a [known issue](https://github.com/disqus/nose-unittest/issues/2) discovered [here](https://github.com/ros/rosdistro/issues/16336) that most tests won't run if you have the python package `nose-unitttest` installed.
+# "activate" the virtual environment
+# this will let pip install dependencies into the virtual environment
+# use activate.zsh if you use zsh, activate.fish if you use fish, etc.
+source .venv/bin/activate
+
+# install the dependencies
+pip3 install -r test/requirements.txt
+
+# run the tests!
+pytest
+```
+
+It is highly recommended to run the unit tests before submitting a pull request.
+(the CI system will run them anyways, but it will save you time)
